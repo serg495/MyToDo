@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -27,14 +28,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function generatePassword($password)
-    {
-        if (isset($password)) {
-            $this->password = bcrypt($password);
-            $this->save();
-        }
-    }
-
     public static function add($fields)
     {
         $user = new static;
@@ -42,6 +35,14 @@ class User extends Authenticatable
         $user->save();
 
         return $user;
+    }
+
+    public function generatePassword($password)
+    {
+        if (isset($password)) {
+            $this->password = bcrypt($password);
+            $this->save();
+        }
     }
 
     public function edit($fields)
@@ -76,10 +77,12 @@ class User extends Authenticatable
     public function getAvatar()
     {
         if ($this->avatar == null) {
-            return '/img/no-user-image.png';
+            return '/img/no-user-image.jpeg';
         } else {
             return '/uploads/' . $this->avatar;
         }
     }
+
+
 }
 
