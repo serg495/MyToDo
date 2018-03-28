@@ -29,7 +29,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'My ToDo') }}
                     </a>
                 </div>
 
@@ -52,9 +52,8 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}">Logout</a>
-                                    </li>
+                                    <li><a href="{{route('profile.edit', Auth::user()->id)}}">Edit Profile</a></li>
+                                    <li><a href="{{ route('logout') }}">Logout</a></li>
                                 </ul>
                             </li>
                         @endif

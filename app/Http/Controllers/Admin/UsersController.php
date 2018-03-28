@@ -84,6 +84,8 @@ class UsersController extends Controller
                         'email',
                         Rule::unique('users')->ignore($user->id),
             ],
+            'address' => 'nullable|string',
+            'phone_number' => 'nullable|numeric|min:10',
             'avatar' => 'nullable|image'
         ]);
 

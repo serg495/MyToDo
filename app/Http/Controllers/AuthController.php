@@ -41,7 +41,7 @@ class AuthController extends Controller
             'email' => $request->get('email'),
             'password' => $request->get('password'),
         ])) {
-            return redirect('/home');
+            return redirect('/');
         } else {
             return redirect()->back()->with('status', 'Неверный логин/пароль');
         }

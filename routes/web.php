@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group(['prefix' => 'admin', 'middleware' => 'admin', 'namespace' => 'Admin'], function (){
     Route::resource('/users', 'UsersController');
 });
@@ -27,8 +23,10 @@ Route::group(['middleware' => 'guest'], function (){
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', 'AuthController@logout')->name('logout');
+    Route::get('/profile/{id}', 'ProfileController@edit')->name('profile.edit');
+    Route::put('/profile/{id}/update', 'ProfileController@update')->name('profile.update');
 });
 
 //Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
