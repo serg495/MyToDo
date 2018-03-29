@@ -11,6 +11,7 @@
     <title>{{ config('app.name', 'My ToDo') }}</title>
 
     <!-- Styles -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -52,8 +53,10 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{route('profile.edit', Auth::user()->id)}}">Edit Profile</a></li>
-                                    <li><a href="{{ route('logout') }}">Logout</a></li>
+                                    <li><a href="{{route('send')}}"><i class="fa fa-send"></i> Send Task</a></li>
+                                    <li><a href="{{route('tasks.create')}}"><i class="fa fa-plus"></i> New Task</a></li>
+                                    <li><a href="{{route('profile.edit', Auth::user()->id)}}"><i class="fa fa-edit"></i> Edit Profile</a></li>
+                                    <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
                                 </ul>
                             </li>
                         @endif

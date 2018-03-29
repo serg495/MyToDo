@@ -25,6 +25,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/logout', 'AuthController@logout')->name('logout');
     Route::get('/profile/{id}', 'ProfileController@edit')->name('profile.edit');
     Route::put('/profile/{id}/update', 'ProfileController@update')->name('profile.update');
+    Route::resource('/tasks', 'TasksController');
+    Route::get('/active/tasks', 'TasksController@active')->name('tasks.active');
+    Route::get('/complete/tasks', 'TasksController@complete')->name('tasks.complete');
+    Route::get('/personal/tasks', 'TasksController@personal')->name('tasks.personal');
+    Route::get('/external/tasks', 'TasksController@external')->name('tasks.external');
+    Route::get('/toggle/{id}', 'TasksController@toggle')->name('toggle');
+    Route::get('/send/tasks', 'TasksController@sendForm')->name('send');
 });
 
 //Auth::routes();

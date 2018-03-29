@@ -6,11 +6,12 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "doctrine/dbal": "^2.5",
         "cviebrock/eloquent-sluggable": "^4.2",
+        "doctrine/dbal": "^2.5",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "laravelcollective/html": "^5.4.0"
+        "laravelcollective/html": "^5.4.0",
+        "nesbot/carbon": "^1.25"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
