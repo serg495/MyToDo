@@ -31,9 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/personal/tasks', 'TasksController@personal')->name('tasks.personal');
     Route::get('/external/tasks', 'TasksController@external')->name('tasks.external');
     Route::get('/toggle/{id}', 'TasksController@toggle')->name('toggle');
-    Route::get('/send/tasks', 'TasksController@sendForm')->name('send');
+    Route::get('/send/tasks', 'TasksController@sendForm')->name('sendForm');
+    Route::post('/send/tasks', 'TasksController@send')->name('send');
 });
 
-//Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');

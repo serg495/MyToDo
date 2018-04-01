@@ -49,12 +49,21 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    Tasks <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="{{route('tasks.index')}}"><i class="fa fa-list"></i> List</a></li>
+                                    <li><a href="{{route('tasks.create')}}"><i class="fa fa-plus"></i> Add</a></li>
+                                    <li><a href="{{route('send')}}"><i class="fa fa-send"></i> Send</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{route('send')}}"><i class="fa fa-send"></i> Send Task</a></li>
-                                    <li><a href="{{route('tasks.create')}}"><i class="fa fa-plus"></i> New Task</a></li>
                                     <li><a href="{{route('profile.edit', Auth::user()->id)}}"><i class="fa fa-edit"></i> Edit Profile</a></li>
                                     <li><a href="{{ route('logout') }}"><i class="fa fa-sign-out"></i> Logout</a></li>
                                 </ul>

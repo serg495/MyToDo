@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Task;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,9 +16,7 @@ class TasksController extends Controller
      */
     public function index()
     {
-
-        $tasks = Auth::user()->tasks()->orderBy('deadline')->orderBy('status', 'desc')->paginate(3);
-
+        $tasks = Auth::user()->tasks()->orderBy('deadline')->paginate(5);
         return view('tasks.index', compact('tasks'));
     }
 
@@ -41,22 +40,12 @@ class TasksController extends Controller
     {
         $this->validate($request, [
            'title' => 'required',
+            'deadline' => 'required'
         ]);
          Task::add($request->all());
         return redirect()->route('tasks.index');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
+     
     /**
      * Show the form for editing the specified resource.
      *
@@ -110,18 +99,44 @@ class TasksController extends Controller
 
     public function active()
     {
-        $tasks = Auth::user()->tasks()->where('status', 0)->orderBy('deadline')->paginate(3);
+        $tasks = Auth::user()->tasks()->where('status', 0)->orderBy('deadline')->paginate(5);
         return view('tasks.index', compact('tasks'));
     }
 
     public function complete()
     {
-        $tasks =  Auth::user()->tasks()->where('status', 1)->orderBy('id', 'desc')->paginate(4);
+        $tasks =  Task::where('user_id', Auth::user()->id)->where('status', 1)
+                        ->orWhere('performer_id', Auth::user()->id)->where('status', 1)
+                        ->paginate(5);
+
+        return view('tasks.index', compact('tasks'));
+    }
+
+    public function external()
+    {
+        $tasks = Task::where('performer_id', Auth::user()->id)
+                        ->where('status', 0)
+                        ->orderBy('deadline')->paginate(5);
+
         return view('tasks.index', compact('tasks'));
     }
 
     public function sendForm()
     {
         return view('tasks.send');
+    }
+
+    public function send(Request $request)
+    {
+        $this->validate($request, [
+            'performer' => 'required|email|exists:users,email',
+            'title' => 'required|string'
+        ]);
+        $user = User::where('email', $request->get('performer'))->first();
+        $task = Task::send($request->all());
+        $task->performer_id = $user->id;
+        $task->save();
+
+        return redirect()->route('tasks.index');
     }
 }

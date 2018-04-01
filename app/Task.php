@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 class Task extends Model
 {
-//    use Sluggable;
+    use Sluggable;
 
     protected $fillable = ['title', 'content', 'deadline'];
 
@@ -18,21 +18,25 @@ class Task extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-//    public function sluggable()
-//    {
-//        return [
-//            'slug' => [
-//                'source' => 'title'
-//            ]
-//        ];
-//    }
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     public static function add($fields)
     {
         $task = new static;
         $task->fill($fields);
         $task->user_id = Auth::user()->id;
-
         $task->save();
 
         return $task;
@@ -65,9 +69,24 @@ class Task extends Model
         }
     }
 
+    public static function send($fields)
+    {
+        $task = new static;
+        $task->fill($fields);
+        $task->save();
+
+        return $task;
+    }
+
+
     public function getDate()
     {
-        return Carbon::createFromFormat('d/m/y', $this->deadline)->format('F d, Y');
+        return Carbon::createFromFormat('Y-m-d', $this->deadline)->format('F d, Y');
+    }
+    public function getDiffDates()
+    {
+        $dt = Carbon::now();
+        return $dt->diffForHumans($this->deadline);
     }
 
 }
