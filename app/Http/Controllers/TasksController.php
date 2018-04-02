@@ -16,7 +16,10 @@ class TasksController extends Controller
      */
     public function index()
     {
-        $tasks = Auth::user()->tasks()->orderBy('deadline')->paginate(5);
+        $tasks = Task::where('user_id', Auth::user()->id)->where('status', 0)
+                        ->orWhere('performer_id', Auth::user()->id)->where('status', 0)
+                        ->orderBy('deadline')->paginate(5);
+
         return view('tasks.index', compact('tasks'));
     }
 
@@ -45,7 +48,7 @@ class TasksController extends Controller
          Task::add($request->all());
         return redirect()->route('tasks.index');
     }
-     
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -71,6 +74,7 @@ class TasksController extends Controller
         $task = Task::find($id);
         $this->validate($request, [
             'title' => 'required',
+            'deadline' => 'required',
         ]);
         $task->edit($request->all());
         return redirect()->route('tasks.index');
@@ -85,7 +89,7 @@ class TasksController extends Controller
     public function destroy($id)
     {
         Task::destroy($id);
-        return redirect()->route('tasks.index');
+        return redirect()->back();
 
     }
 
@@ -138,5 +142,14 @@ class TasksController extends Controller
         $task->save();
 
         return redirect()->route('tasks.index');
+    }
+
+    public function removeCompleteTasks()
+    {
+        Task::where('user_id', Auth::user()->id)->where('status', 1)
+            ->orWhere('performer_id', Auth::user()->id)->where('status', 1)
+            ->delete();
+
+        return redirect()->back()->with('status', 'Completed tasks deleted successfully ');
     }
 }

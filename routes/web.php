@@ -33,7 +33,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/toggle/{id}', 'TasksController@toggle')->name('toggle');
     Route::get('/send/tasks', 'TasksController@sendForm')->name('sendForm');
     Route::post('/send/tasks', 'TasksController@send')->name('send');
+    Route::get('/clear', 'TasksController@removeCompleteTasks')->name('tasks.clear');
+    Route::get('/events', 'EventController@index')->name('events.index');
+    Route::post('/events', 'EventController@addEvent')->name('events.add');
 });
 
 
-Route::get('/', 'HomeController@index')->name('home');

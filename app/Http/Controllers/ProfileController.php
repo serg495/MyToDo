@@ -33,7 +33,7 @@ class ProfileController extends Controller
         $user->uploadAvatar($request->file('avatar'));
         $user->generatePassword($request->get('password'));
 
-        return redirect()->route('home');
+        return redirect()->route('tasks.index');
     }
 }
 

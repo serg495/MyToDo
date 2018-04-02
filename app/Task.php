@@ -83,6 +83,7 @@ class Task extends Model
     {
         return Carbon::createFromFormat('Y-m-d', $this->deadline)->format('F d, Y');
     }
+
     public function getDiffDates()
     {
         $dt = Carbon::now();

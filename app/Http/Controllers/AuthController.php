@@ -43,7 +43,7 @@ class AuthController extends Controller
         ])) {
             return redirect('/tasks');
         } else {
-            return redirect()->back()->with('status', 'Неверный логин/пароль');
+            return redirect()->back()->with('status', 'Invalid login/password');
         }
     }
     public function logout()

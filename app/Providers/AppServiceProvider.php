@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with('activeExternalCount', Task::where('performer_id', Auth::user()->id)->where('status', 0)->count());
             $view->with('activePersonalCount', Task::where('user_id', Auth::user()->id)->where('status', 0)->count());
         });
+        view()->composer('tasks.index', function($view) {
+           $view->with('completeTasksCount', Task::where('performer_id', Auth::user()->id)->where('status', 1)
+                                            ->orWhere('user_id', Auth::user()->id)->where('status', 1)->count());
+        });
     }
 
     /**
